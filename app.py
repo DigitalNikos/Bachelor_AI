@@ -1,14 +1,17 @@
 import streamlit as st
 import os
+import logging
 
 from langchain.llms import LlamaCpp
 from langchain.chains import LLMChain
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.prompts import PromptTemplate
+from validation import is_valid_url, validate_file
 
 from langchain.llms import LlamaCpp
 
+logging.basicConfig(filename='app.log', level=logging.INFO)
 
 # App title
 st.set_page_config(page_title="🦙💬 Llama 2 Chatbot")
@@ -52,6 +55,13 @@ with st.sidebar:
       callback_manager=callback_manager,
       verbose=True,
     )
+
+    if validate_file(st, st_document):
+        # Process the file if validation is successful
+        logging.info(f"File is valid")
+        #file_uploader(st,st_document)
+    # if st_document is not None:
+    #    
 
 # Store LLM generated responses
 if "messages" not in st.session_state.keys():
