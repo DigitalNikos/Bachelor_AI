@@ -6,6 +6,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 logging.basicConfig(filename='laodfiles.log', level=logging.INFO)
 
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+
 def file_uploader(st, st_document):
     st.write("File has been uploaded!")
     bytes_data = st_document.getvalue()
@@ -20,8 +22,8 @@ def file_uploader(st, st_document):
     # split_text = re.split(pattern, text)
     # separator = ' '  # Define the separator you want to use, e.g., a space
     # my_string = separator.join(split_text)
-
-    logging.info(f"Upload Text: {text}")
+    texts = text_splitter.split_documents(text)
+    logging.info(f"Upload Text: {texts}")
     
 
     # add_to_collection(text)
