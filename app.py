@@ -9,7 +9,8 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.prompts import PromptTemplate
 from validation import is_valid_url, validate_file
 from loadfiles import file_uploader
-
+from vecotrdb import retriever
+from langchain.chains import RetrievalQA
 from langchain.llms import LlamaCpp
 
 logging.basicConfig(filename='app.log', level=logging.INFO)
@@ -80,13 +81,22 @@ st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 
 # Function for generating LLaMA2 response. Refactored from https://github.com/a16z-infra/llama2-chatbot
 def generate_llama2_response(prompt_input):
-
+    qa_chain = RetrievalQA.from_chain_type(
+    llm,
+    retriever=retriever
+    )
+    llm_response = qa_chain(prompt_input)
+    logging.info(f"Answer from DB:{llm_response}")
     pre_prompt = """[INST] <<SYS>>
                   You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.
 
                   If you cannot answer the question from the given documents, please state that you do not have an answer.\n
                   """
-
+    
+    qa_chain = RetrievalQA.from_chain_type(
+        llm,
+        retriever=retriever
+    )
 
     for dict_message in st.session_state.messages:
         if dict_message["role"] == "user":
