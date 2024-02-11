@@ -25,7 +25,7 @@ def file_uploader(st, st_document):
     # my_string = separator.join(split_text)
     texts = text_splitter.split_text(text)
     logging.info(f"Upload Text: {texts}")
-    vectordb.add(texts)
+    vectordb.add_texts(texts)
 
     logging.info(f"Successful add text")
     
