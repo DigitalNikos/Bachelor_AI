@@ -11,22 +11,7 @@ persist_directory = 'db'
 # HuggingFace embedding is free!
 embedding = HuggingFaceEmbeddings()
 
-client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="db/"))
+vectordb = Chroma(persist_directory=persist_directory, 
+                  embedding_function=embedding)
 
-# client.delete_collection(name="Pdf")
-try:
-    client.delete_collection(name="Documents")
-except IndexError as e:
-    print(f"Error deleting collection: {e}")
 
-collection = client.create_collection(
-    name="Documents",
-    embedding_function=embedding,
-    metadata={"hnsw:space": "cosine"}
-    )
-
-langchain_chroma = Chroma(
-    client=client,
-    collection_name="Documents",
-    embedding_function=embedding,
-)

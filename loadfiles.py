@@ -2,7 +2,7 @@ import pdfplumber
 import io
 import logging
 
-from vecotrdb import langchain_chroma
+from vecotrdb import vectordb
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 logging.basicConfig(filename='laodfiles.log', level=logging.INFO)
@@ -25,7 +25,7 @@ def file_uploader(st, st_document):
     # my_string = separator.join(split_text)
     texts = text_splitter.split_text(text)
     logging.info(f"Upload Text: {texts}")
-    langchain_chroma.add(texts)
+    vectordb.add(texts)
 
     logging.info(f"Successful add text")
     
