@@ -15,3 +15,4 @@ vectordb = Chroma(persist_directory=persist_directory,
                   embedding_function=embedding)
 
 
+retriever = vectordb.as_retriever(search_kwargs={"k": 5})
