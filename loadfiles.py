@@ -22,7 +22,7 @@ def file_uploader(st, st_document):
     # split_text = re.split(pattern, text)
     # separator = ' '  # Define the separator you want to use, e.g., a space
     # my_string = separator.join(split_text)
-    texts = text_splitter.split_documents(text)
+    texts = text_splitter.split_text(text)
     logging.info(f"Upload Text: {texts}")
     
 
