@@ -19,4 +19,4 @@ import chromadb
 
 chroma_client = chromadb.Client()
 
-collection = chroma_client.create_collection(name="Documents/external data source")
+collection = chroma_client.create_collection(name="Documents_external_data_source")

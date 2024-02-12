@@ -2,7 +2,7 @@ import pdfplumber
 import io
 import logging
 
-from vecotrdb import vectordb
+from vecotrdb import collection
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from pypdf import PdfReader
 
