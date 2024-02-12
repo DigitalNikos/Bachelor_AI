@@ -4,6 +4,7 @@ import logging
 
 from vecotrdb import vectordb
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from pypdf import PdfReader
 
 logging.basicConfig(filename='laodfiles.log', level=logging.INFO)
 
@@ -11,11 +12,17 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20
 
 def file_uploader(st, st_document):
     st.write("File has been uploaded!")
-    bytes_data = st_document.getvalue()
-    with pdfplumber.open(io.BytesIO(bytes_data)) as pdf:
-        text = ''
-        for page in pdf.pages:
-            text += page.extract_text() + "\n"
+    reader = PdfReader(st_document)
+    pdf_texts = [p.extract_text().strip() for p in reader.pages]
+    
+    # Filter the empty strings
+    pdf_texts = [text for text in pdf_texts if text]
+
+    # bytes_data = st_document.getvalue()
+    # with pdfplumber.open(io.BytesIO(bytes_data)) as pdf:
+    #     text = ''
+    #     for page in pdf.pages:
+    #         text += page.extract_text() + "\n"
     
     # separators = ["\n\n", "\n", "(?<=\, )", " ", ""]
     # pattern = '|'.join(map(re.escape, separators))
@@ -23,9 +30,10 @@ def file_uploader(st, st_document):
     # split_text = re.split(pattern, text)
     # separator = ' '  # Define the separator you want to use, e.g., a space
     # my_string = separator.join(split_text)
-    texts = text_splitter.split_text(text)
-    logging.info(f"Upload Text: {texts}")
-    vectordb.add_texts(texts)
+    # texts = text_splitter.split_text(text)
+    logging.info(f"Upload Text: {pdf_texts}")
+    logging.info(f"Upload Text: {word_wrap(pdf_texts[0])}")
+    # vectordb.add_texts(texts)
 
     logging.info(f"Successful add text")
     
