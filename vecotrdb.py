@@ -5,6 +5,9 @@ import chromadb
 # from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 # from langchain.vectorstores import Chroma
 # from langchain.embeddings import HuggingFaceEmbeddings
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+
+embedding_function = SentenceTransformerEmbeddingFunction()
 
 # persist_directory = 'db'
 
@@ -19,4 +22,4 @@ import chromadb
 
 chroma_client = chromadb.Client()
 
-collection = chroma_client.create_collection(name="Documents_external_data_source")
+collection = chroma_client.create_collection(name="Documents_external_data_source", embedding_function=embedding_function)

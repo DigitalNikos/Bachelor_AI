@@ -30,16 +30,7 @@ callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 # Replicate Credentials
 with st.sidebar:
-    st.title('🦙💬 Llama 2 Chatbot')
-
-
-    st.subheader('Models and parameters')
-    selected_model = st.sidebar.selectbox('Choose a Llama2 model', ['Llama2-7B', 'Llama2-13B'], key='selected_model')
-
-    if selected_model == 'Llama2-7B':
-        llm_path = llama_model_path
-    elif selected_model == 'Llama2-13B':
-        llm_path = llama_model_path
+    st.title('🦙💬 Llama 2 Chatbot')    
 
     temperature = st.sidebar.slider('temperature', min_value=0.01, max_value=5.0, value=0.1, step=0.01)
     top_p = st.sidebar.slider('top_p', min_value=0.01, max_value=1.0, value=0.9, step=0.01)
@@ -50,7 +41,7 @@ with st.sidebar:
 
 
     llm = LlamaCpp(
-      model_path=llm_path,
+      model_path=llama_model_path,
       temperature=temperature,
       top_p=top_p,
       n_ctx=4096,
@@ -61,6 +52,7 @@ with st.sidebar:
     )
 
     if validate_file(st, st_document):
+        
         # Process the file if validation is successful
         logging.info(f"File is valid")
         file_uploader(st,st_document)
